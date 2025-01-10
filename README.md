@@ -14,3 +14,13 @@ npm install cors
 npm install firebase-admin
 
 ② サーバーの設定 (server.js)
+Expressサーバーを設定
+package.jsonに開発用のスクリプトを更新
+※ http://localhost:5000はすでに使われていたので、8000に変更
+
+③ Firebase Adminの設定(firebase.js)
+管理者がユーザー情報にアクセスするため
+
+④ 認証ミドルウェア(auth.js)
+ログインユーザーのみ許可される処理
+
