@@ -24,3 +24,15 @@ package.jsonに開発用のスクリプトを更新
 ④ 認証ミドルウェア(auth.js)
 ログインユーザーのみ許可される処理
 
+## フロントエンド
+
+① create-react-appでプロジェクトを作成
+
+② 必要なパッケージのインストール
+・React Router のインストール
+npm install react-router-dom
+
+・Material UI のインストール（必要なコアパッケージ）
+npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
+
+
