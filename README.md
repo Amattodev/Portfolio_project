@@ -36,6 +36,15 @@ npm install react-router-dom
 npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
 
 # UI構築
+## 準備
+- srcディレクトリの整理
+- App.jsの作成
+- Material UIのテーマを作成(theme.js)
+- ファイルの整理
+
+## ポートフォリオ一覧画面作成
+- ヘッダー作成(Header.js)
+
 
 
 
