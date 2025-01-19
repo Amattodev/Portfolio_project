@@ -3,6 +3,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from './theme'; 
 import Header from './layout/Header';
+import PortfolioList from './pages/PortfolioList';
 
 function App() {
   return (
@@ -10,9 +11,9 @@ function App() {
       <CssBaseline />
       <Router>
         <Header />
-        {/* <Routes>
+        <Routes>
           <Route path="/" element={<PortfolioList />} />
-        </Routes> */}
+        </Routes>
       </Router> 
     </ThemeProvider>
   );
