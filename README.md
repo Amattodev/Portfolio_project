@@ -44,6 +44,10 @@ npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
 
 ## ポートフォリオ一覧画面作成
 - ヘッダー作成(Header.js)
+- ポートフォリオ一覧画面作成(PortfolioList.js)
+- ポートフォリオカード作成(PortfolioCard.js)
+・Girdの仕様変更：Grid2へ変更（CssのエラーでMaterial UIの公式docを参照）
+
 
 
 
