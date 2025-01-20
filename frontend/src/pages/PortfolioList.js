@@ -1,4 +1,4 @@
-import { Container, Grid2, TextField, Box, Select, MenuItem } from '@mui/material';
+import { Container, Grid2, TextField, Box, Select, MenuItem, FormControl } from '@mui/material';
 import PortfolioCard from './PortfolioCard';
 
 const portfolios = [
@@ -28,6 +28,17 @@ const portfolios = [
 function PortfolioList() {
     return (
         <Container maxWidth="lg" sx={{ py: 4 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 3 }}>
+                <FormControl size="small" sx={{ minWidth: 120 }}>
+                    <Select
+                        // value={sortBy}
+                        // onChange={handleSortChange}
+                    >
+                        <MenuItem value="newest">新着順</MenuItem>
+                        <MenuItem value="likes">いいね数順</MenuItem>
+                    </Select>
+                </FormControl>
+            </Box>
             <Grid2 
                 container 
                 spacing={3}
