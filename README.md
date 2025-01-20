@@ -48,6 +48,10 @@ npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
 - ポートフォリオカード作成(PortfolioCard.js)
 ・Girdの仕様変更：Grid2へ変更（CssのエラーでMaterial UIの公式docを参照）
 
+# Next
+・検索バー
+・ソート（新着順、いいね数）
+
 
 
 
