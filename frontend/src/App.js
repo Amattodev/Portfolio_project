@@ -4,6 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import theme from './theme'; 
 import Header from './layout/Header';
 import PortfolioList from './pages/PortfolioList';
+import SignUp from './pages/Signup';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<PortfolioList />} />
+          <Route path="/signup" element={<SignUp />}></Route>
         </Routes>
       </Router> 
     </ThemeProvider>

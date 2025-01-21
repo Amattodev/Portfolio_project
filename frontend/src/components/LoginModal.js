@@ -1,5 +1,6 @@
 import { Modal, Box, Typography, TextField, Button, Divider } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
+import { Link } from 'react-router-dom';
 function LoginModal({ open, onClose, onLogin }) {
 
     //認証の機能はまだなので、一旦Googleログインボタンのクリックだけでログインできるようにしている
@@ -67,7 +68,16 @@ function LoginModal({ open, onClose, onLogin }) {
                     <Typography variant="body2">
                         アカウントをお持ちでない方は
                     </Typography>
-                    <Button color="primary"  sx={{ textTransform: 'none', ml: 0.5 }}>
+                    <Button 
+                        color="primary"  
+                        component={Link}
+                        to="/signup"
+                        onClick={onClose}
+                        sx={{ 
+                            textTransform: 'none', 
+                            ml: 0.5 
+                        }}
+                    >
                         新規登録
                     </Button>
                 </Box>

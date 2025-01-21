@@ -49,9 +49,8 @@ npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
 ・Girdの仕様変更：Grid2へ変更（CssのエラーでMaterial UIの公式docを参照）
 
 ## ログイン関連画面
-- モーダル画面を作成
-- 未ログイン時のポートフォリオ一覧画面作成(PortfolioList.js)
 - アカウント情報の整理
+- アカウント登録画面の作成
 
 
 
