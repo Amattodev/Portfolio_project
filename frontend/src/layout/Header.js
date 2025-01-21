@@ -17,6 +17,11 @@ function Header () {
         setOpenLoginModal(false);
     };
 
+    const handleLogin = () => {
+        setIsLoggedIn(true);
+        setOpenLoginModal(false);
+    }
+
     return (
         <AppBar position="static" color= "default" elevation={1}>
             <Container maxWidth="lg">
@@ -89,6 +94,7 @@ function Header () {
             <LoginModal
                 open={openLoginModal}
                 onClose={handleCloseModal}
+                onLogin={handleLogin}
             />
         </AppBar>
     )
