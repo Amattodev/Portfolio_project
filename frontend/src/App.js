@@ -5,7 +5,7 @@ import theme from './theme';
 import Header from './layout/Header';
 import PortfolioList from './pages/PortfolioList';
 import SignUp from './pages/Signup';
-
+import ProfileSetup from './pages/ProfileSetup';
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -15,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<PortfolioList />} />
           <Route path="/signup" element={<SignUp />}></Route>
+          <Route path="/profile/setup" element={<ProfileSetup />}></Route>
         </Routes>
       </Router> 
     </ThemeProvider>
