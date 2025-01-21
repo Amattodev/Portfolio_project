@@ -3,8 +3,20 @@ import AddIcon from '@mui/icons-material/Add';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import PersonIcon from '@mui/icons-material/Person';
 import SearchIcon from '@mui/icons-material/Search';
-
+import { useState } from 'react';
+import LoginModal from '../components/LoginModal';
 function Header () {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [openLoginModal, setOpenLoginModal] = useState(false);
+
+    const handleLoginClick = () => {
+        setOpenLoginModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenLoginModal(false);
+    };
+
     return (
         <AppBar position="static" color= "default" elevation={1}>
             <Container maxWidth="lg">
@@ -44,22 +56,40 @@ function Header () {
                         }}
                     />
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <IconButton>
-                            <NotificationsIcon fontSize="medium" />
-                        </IconButton>
-                        <IconButton>
-                            <PersonIcon fontSize="medium" />
-                        </IconButton>
-                        <Button
-                            variant="contained"
-                            startIcon={<AddIcon />}
-                            sx={{borderRadius: '5px'}}
-                        >
-                            投稿
-                        </Button>
+                        {isLoggedIn ? (
+                            <>
+                                <IconButton>
+                                    <NotificationsIcon fontSize="medium" />
+                                </IconButton>
+                                <IconButton>
+                                    <PersonIcon fontSize="medium" />
+                                </IconButton>
+                                <Button
+                                    variant="contained"
+                                    startIcon={<AddIcon />}
+                                    sx={{borderRadius: '5px'}}
+                                >
+                                    投稿
+                                </Button>
+                            </>
+                        ) : (
+                            <Button 
+                                variant="contained" 
+                                onClick={handleLoginClick}
+                                sx={{
+                                    borderRadius: '5px'
+                                }}
+                            >
+                                ログイン
+                            </Button>
+                        )}
                     </Box>
                 </Toolbar>
             </Container>
+            <LoginModal
+                open={openLoginModal}
+                onClose={handleCloseModal}
+            />
         </AppBar>
     )
 }
