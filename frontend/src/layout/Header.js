@@ -5,6 +5,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
 import LoginModal from '../components/LoginModal';
+import { Link } from 'react-router-dom';
 function Header () {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [openLoginModal, setOpenLoginModal] = useState(false);
@@ -31,7 +32,8 @@ function Header () {
                 >
                     <Typography 
                         variant='h6' 
-                        component= "div" 
+                        component={Link}
+                        to="/"
                         sx={{
                             fontWeight: 'bold',
                         }}
@@ -72,6 +74,8 @@ function Header () {
                                 <Button
                                     variant="contained"
                                     startIcon={<AddIcon />}
+                                    component={Link}
+                                    to="/new/portfolio"
                                     sx={{borderRadius: '5px'}}
                                 >
                                     投稿

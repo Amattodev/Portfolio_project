@@ -6,6 +6,8 @@ import Header from './layout/Header';
 import PortfolioList from './pages/PortfolioList';
 import SignUp from './pages/Signup';
 import ProfileSetup from './pages/ProfileSetup';
+import Profile from './pages/Profile';
+import NewPortfolio from './pages/NewPortfolio';
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -16,6 +18,8 @@ function App() {
           <Route path="/" element={<PortfolioList />} />
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/profile/setup" element={<ProfileSetup />}></Route>
+          <Route path="/profile" element={<Profile />}></Route>
+          <Route path="/new/portfolio" element={<NewPortfolio />}></Route>
         </Routes>
       </Router> 
     </ThemeProvider>

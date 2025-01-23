@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
     Box, 
     Container, 
@@ -16,7 +17,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
 function ProfileSetup() {
-
+    const navigate = useNavigate();
     const [previewUrl, setPreviewUrl] = useState(null);
 
     //非同期処理をよりわかりやすく書くべき
