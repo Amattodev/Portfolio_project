@@ -57,10 +57,12 @@ npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
 
 ## プロフィール画面の作成
 ## ポートフォリオ投稿画面の作成
+## ポートフォリオ詳細画面の作成
+
+- APIを設計していないため、仮のデータを作成している
 
 
 ## ネクスト
-- ポートフォリオ詳細画面の作成
 
 
 

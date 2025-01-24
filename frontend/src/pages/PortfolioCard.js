@@ -1,8 +1,15 @@
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardMedia, CardActions, Typography, Box, IconButton, Chip } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LanguageIcon from '@mui/icons-material/Language';
 import FavoriteIcon from '@mui/icons-material/FavoriteBorder';
 function PortfolioCard({ portfolio }) {
+    const navigate = useNavigate();
+    
+    const handleCardClick = () => {
+        navigate(`/portfolio/${portfolio.id}`)
+    }
+
     return (
         <Card sx={{ 
             height: '380px', 
@@ -10,7 +17,15 @@ function PortfolioCard({ portfolio }) {
             display: 'flex', 
             flexDirection: 'column',
             borderRadius: '10px',
-        }}>
+            cursor: 'pointer',
+            '&:hover': {
+                transform: 'translateY(-4px)',
+                transition: 'transform 0.2s ease-in-out',
+                boxShadow: 3
+            }
+        }}
+        onClick={handleCardClick}
+        >
             <CardMedia
                 component="img"
                 height="220"

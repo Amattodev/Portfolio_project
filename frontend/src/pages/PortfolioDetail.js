@@ -1,3 +1,4 @@
+import { useParams } from 'react-router-dom';
 import { 
     Container, 
     Box, 
@@ -12,6 +13,9 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import LanguageIcon from '@mui/icons-material/Language';
 import FavoriteIcon from '@mui/icons-material/FavoriteBorder';
 function PortfolioDetail() {
+    //APIを設計していないため、まだここのidは使われていない
+    const { id } = useParams();
+
     const portfolio ={
         id: 1,
         title: "アプリタイトル1",
@@ -26,7 +30,7 @@ function PortfolioDetail() {
         },
         created_at: "2025-01-24",
     }
-    
+
     return (
         <Container maxWidth="lg" sx={{ py: 4 }}>
             <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
