@@ -8,6 +8,8 @@ import SignUp from './pages/Signup';
 import ProfileSetup from './pages/ProfileSetup';
 import Profile from './pages/Profile';
 import NewPortfolio from './pages/NewPortfolio';
+import PortfolioDetail from './pages/PortfolioDetail';
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -20,6 +22,7 @@ function App() {
           <Route path="/profile/setup" element={<ProfileSetup />}></Route>
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="/new/portfolio" element={<NewPortfolio />}></Route>
+          <Route path="/portfolio/:id" element={<PortfolioDetail />}></Route>
         </Routes>
       </Router> 
     </ThemeProvider>

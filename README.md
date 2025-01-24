@@ -56,12 +56,10 @@ npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
 ・アイコン画像の非同期処理：イベントハンドラーを先に記述し、時間のかかる処理を後ろに書く
 
 ## プロフィール画面の作成
-
 ## ポートフォリオ投稿画面の作成
 
 
 ## ネクスト
-- 新規投稿画面の作成（Zenを参考に）
 - ポートフォリオ詳細画面の作成
 
 
