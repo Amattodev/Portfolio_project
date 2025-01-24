@@ -26,6 +26,7 @@ function PortfolioDetail() {
         },
         created_at: "2025-01-24",
     }
+    
     return (
         <Container maxWidth="lg" sx={{ py: 4 }}>
             <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
@@ -36,7 +37,7 @@ function PortfolioDetail() {
                 </Box>
             </Box>
 
-            <Typography variant="h4">{portfolio.title}</Typography>
+            <Typography variant="h4" gutterBottom>{portfolio.title}</Typography>
 
             <Box 
                 component="img"
