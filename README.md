@@ -61,10 +61,17 @@ npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
 
 - APIを設計していないため、仮のデータを作成している
 
+# ユーザー認証の実装
+1. Firebaseの設定
+2. ユーザーの認証状態を管理するためのコンテキストを作成
+3. 既存のログインモーダルと新規登録画面を更新
+4. AuthProviderでアプリケーションをラップ(App.js)
+5. .envファイルを作成し、Firebase設定を追加:
 
-## ネクスト
-
-
+## Firebaseの設定
+・Client SDK（フロントエンド）とAdmin SDK（バックエンド）で用途が違う
+Client SDKはユーザーがログインしているか否か
+Admin SDKはユーザー情報をもとにAPIリクエストしている
 
 
 
