@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
-import { AuthProvider } from './contexts/context';
+import { AuthProvider } from './contexts/AuthContext';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from './theme'; 
 import Header from './layout/Header';
@@ -17,17 +17,17 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Router>
-        <Header />
-        <Routes>
-          <Route path="/" element={<PortfolioList />} />
-          <Route path="/signup" element={<SignUp />}></Route>
-          <Route path="/profile/setup" element={<ProfileSetup />}></Route>
-          <Route path="/profile" element={<Profile />}></Route>
-          <Route path="/new/portfolio" element={<NewPortfolio />}></Route>
-          <Route path="/portfolio/:id" element={<PortfolioDetail />}></Route>
-        </Routes>
-      </Router> 
-    </ThemeProvider>
+          <Header />
+          <Routes>
+            <Route path="/" element={<PortfolioList />} />
+            <Route path="/signup" element={<SignUp />}></Route>
+            <Route path="/profile/setup" element={<ProfileSetup />}></Route>
+            <Route path="/profile" element={<Profile />}></Route>
+            <Route path="/new/portfolio" element={<NewPortfolio />}></Route>
+            <Route path="/portfolio/:id" element={<PortfolioDetail />}></Route>
+          </Routes>
+        </Router> 
+      </ThemeProvider>
     </AuthProvider>
   );
 }

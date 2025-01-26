@@ -1,11 +1,31 @@
+import { useState } from 'react';
 import { Modal, Box, Typography, TextField, Button, Divider } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 function LoginModal({ open, onClose, onLogin }) {
+    const { loginWithGoogle, login  } = useAuth();
+    const [error, setError] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    //認証の機能はまだなので、一旦Googleログインボタンのクリックだけでログインできるようにしている
-    const handleGoogleLogin = () => {
-        onLogin();
+    const handleGoogleLogin = async () => {
+        try {
+            await loginWithGoogle();
+            onClose();
+        } catch (error) {
+            setError('Googleログインに失敗しました');
+        }
+    }
+
+    const handleEmailLogin = async (e) => {
+        e.preventDefault();
+        try {
+            await login(email, password);
+            onClose();
+        } catch (error) {
+            setError('メール・パスワードでのログインに失敗しました');
+        }
     }
 
     const modalStyle = {
@@ -39,26 +59,35 @@ function LoginModal({ open, onClose, onLogin }) {
                     Googleでログイン
                 </Button>
                 <Divider sx={{ my: 2 }}>または</Divider>
-                <TextField
-                    fullWidth
-                    label="メールアドレス"
-                    variant="outlined"
-                    margin="normal"
-                />
-                <TextField
-                    fullWidth
-                    label="パスワード"
-                    type="password"
-                    variant="outlined"
-                    margin="normal"
-                />
-                <Button
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 2 }}
-                >
-                    ログイン
-                </Button>
+                <Box component="form" onSubmit={handleEmailLogin}>
+                    <TextField
+                        fullWidth
+                        label="メールアドレス"
+                        variant="outlined"
+                        margin="normal"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                    <TextField
+                        fullWidth
+                        label="パスワード"
+                        type="password"
+                        variant="outlined"
+                        margin="normal"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 2 }}
+                    >
+                        ログイン
+                    </Button>
+                </Box>
                 <Box align="center" sx={{ 
                     mt: 2,
                     display: 'flex',
@@ -72,7 +101,6 @@ function LoginModal({ open, onClose, onLogin }) {
                         color="primary"  
                         component={Link}
                         to="/signup"
-                        onClick={onClose}
                         sx={{ 
                             textTransform: 'none', 
                             ml: 0.5 
