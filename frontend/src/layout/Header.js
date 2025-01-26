@@ -6,8 +6,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
 import LoginModal from '../components/LoginModal';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+
 function Header () {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { currentUser, logout } = useAuth();
+    console.log(currentUser);
+
+    // const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [openLoginModal, setOpenLoginModal] = useState(false);
 
     const handleLoginClick = () => {
@@ -18,9 +23,12 @@ function Header () {
         setOpenLoginModal(false);
     };
 
-    const handleLogin = () => {
-        setIsLoggedIn(true);
-        setOpenLoginModal(false);
+    const handleLogout = async () => {
+        try {
+            await logout();
+        } catch (error) {
+            console.log('ログアウトに失敗しました:', error)
+        }
     }
 
     return (
@@ -63,13 +71,13 @@ function Header () {
                         }}
                     />
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        {isLoggedIn ? (
+                        {currentUser ? (
                             <>
                                 <IconButton>
                                     <NotificationsIcon fontSize="medium" />
                                 </IconButton>
                                 <IconButton>
-                                    <PersonIcon fontSize="medium" />
+                                    {/* <PersonIcon fontSize="medium" /> */}
                                 </IconButton>
                                 <Button
                                     variant="contained"
@@ -79,6 +87,9 @@ function Header () {
                                     sx={{borderRadius: '5px'}}
                                 >
                                     投稿
+                                </Button>
+                                <Button onClick={handleLogout} >
+                                    ログアウト
                                 </Button>
                             </>
                         ) : (
@@ -98,7 +109,6 @@ function Header () {
             <LoginModal
                 open={openLoginModal}
                 onClose={handleCloseModal}
-                onLogin={handleLogin}
             />
         </AppBar>
     )
