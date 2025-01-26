@@ -24,7 +24,23 @@ function LoginModal({ open, onClose, onLogin }) {
             await login(email, password);
             onClose();
         } catch (error) {
-            setError('メール・パスワードでのログインに失敗しました');
+            switch (error.code) {
+                case 'auth/user-not-found':
+                    setError('メールアドレスが登録されていません');
+                    break;
+                case 'auth/wrong-password':
+                    setError('パスワードが間違っています');
+                    break;
+                case 'auth/invalid-email':
+                    setError('メールアドレスの形式が正しくありません');
+                    break;
+                case 'auth/too-many-requests':
+                    setError('ログイン試行回数が多すぎます。しばらく待ってから再試行してください');
+                    break;
+                default:
+                    setError(`ログインに失敗しました: ${error.message}`);
+                    break;
+            }
         }
     }
 
@@ -50,6 +66,11 @@ function LoginModal({ open, onClose, onLogin }) {
                 <Typography id="modal-modal-title" variant="h6" align="center" gutterBottom>
                     ログイン
                 </Typography>
+                {error && (
+                    <Typography color="error" align="center" sx={{ mb: 2 }}>
+                        {error}
+                    </Typography>
+                )}
                 <Button
                     fullWidth
                     variant="contained"

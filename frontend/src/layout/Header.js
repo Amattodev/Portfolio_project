@@ -12,7 +12,6 @@ function Header () {
     const { currentUser, logout } = useAuth();
     console.log(currentUser);
 
-    // const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [openLoginModal, setOpenLoginModal] = useState(false);
 
     const handleLoginClick = () => {
