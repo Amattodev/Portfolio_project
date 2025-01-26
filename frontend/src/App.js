@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
+import { AuthProvider } from './contexts/context';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from './theme'; 
 import Header from './layout/Header';
@@ -12,9 +13,10 @@ import PortfolioDetail from './pages/PortfolioDetail';
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Router>
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
         <Header />
         <Routes>
           <Route path="/" element={<PortfolioList />} />
@@ -26,6 +28,7 @@ function App() {
         </Routes>
       </Router> 
     </ThemeProvider>
+    </AuthProvider>
   );
 }
 

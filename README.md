@@ -72,7 +72,9 @@ npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
 ・Client SDK（フロントエンド）とAdmin SDK（バックエンド）で用途が違う
 Client SDKはユーザーがログインしているか否か
 Admin SDKはユーザー情報をもとにAPIリクエストしている
+・.gitignoreに.envファイルを追跡する
 
+## ユーザーの認証状態を管理するためのコンテキストを作成(context.js)
 
 
 
