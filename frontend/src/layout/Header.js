@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Typography, Button, Container, IconButton, TextField, InputAdornment, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Container, IconButton, TextField, InputAdornment, Box, Avatar } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import PersonIcon from '@mui/icons-material/Person';
@@ -76,8 +76,18 @@ function Header () {
                                 <IconButton>
                                     <NotificationsIcon fontSize="medium" />
                                 </IconButton>
-                                <IconButton>
-                                    {/* <PersonIcon fontSize="medium" /> */}
+                                <IconButton
+                                    component={Link}
+                                    to="/profile"
+                                >
+                                    {currentUser.photoURL ? (
+                                        <Avatar 
+                                            src={currentUser.photoURL} 
+                                            sx={{width: 32, height: 32}} 
+                                        />
+                                    ) : (
+                                        <PersonIcon fontSize="medium" />
+                                    )}
                                 </IconButton>
                                 <Button
                                     variant="contained"
