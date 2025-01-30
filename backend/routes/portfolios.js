@@ -15,15 +15,34 @@ router.get('/', async(req, res) => {
     }
 })
 
-//新規ポートフォリオを作成
-router.post('/', authMiddleware, async(req, res) => {
+// //新規ポートフォリオを作成
+// router.post('/', authMiddleware, async(req, res) => {
+//     const portfolio = new Portfolio({
+//         title: req.body.title,
+//         description: req.body.description,
+//         imageUrl: req.body.imageUrl,
+//         githubUrl: req.body.githubUrl,
+//         deployUrl: req.body.deployUrl,
+//         user: req.user.id
+//     });
+
+//     try {
+//         const newPortfolio = await portfolio.save();
+//         res.status(201).json(newPortfolio);
+//     } catch (error) {
+//         res.status(400).json({message: error.message})
+//     }
+// })
+
+//テスト用(一時的なミドルウェア無効化)
+router.post('/', async(req, res) => {
     const portfolio = new Portfolio({
         title: req.body.title,
         description: req.body.description,
         imageUrl: req.body.imageUrl,
         githubUrl: req.body.githubUrl,
         deployUrl: req.body.deployUrl,
-        user: req.user.id
+        user: "dummy-user-id"
     });
 
     try {

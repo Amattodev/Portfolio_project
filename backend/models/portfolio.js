@@ -17,9 +17,14 @@ const portfolioSchema = new mongoose.Schema({
     },
     githubUrl: String,
     deployUrl: String,
+    // user: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'User',
+    //     required: true
+    // },
+    //　一時的なテスト
     user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        type: String,
         required: true
     },
     likes: [{
