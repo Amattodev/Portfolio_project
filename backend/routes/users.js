@@ -32,7 +32,7 @@ router.put('/profile', authMiddleware, async(req, res) => {
             github: req.body.github
         };
 
-        const updatedUser = await User.findByOneAndUpdate(
+        const updatedUser = await User.findOneAndUpdate(
             { uid: req.user.id }, 
             updates, 
             {new: true}

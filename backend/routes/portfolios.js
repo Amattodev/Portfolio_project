@@ -20,7 +20,7 @@ router.post('/', authMiddleware, async(req, res) => {
     const portfolio = new Portfolio({
         title: req.body.title,
         description: req.body.description,
-        image: req.body.image,
+        imageUrl: req.body.imageUrl,
         githubUrl: req.body.githubUrl,
         deployUrl: req.body.deployUrl,
         user: req.user.id
