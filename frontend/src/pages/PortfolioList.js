@@ -1,6 +1,6 @@
-import { Container, Grid2, TextField, Box, Select, MenuItem, FormControl } from '@mui/material';
+import { Container, Grid2, TextField, Box, Select, MenuItem, FormControl, Button } from '@mui/material';
 import PortfolioCard from './PortfolioCard';
-
+import { useAuth } from '../contexts/AuthContext';
 const portfolios = [
     {
         id: 1,
@@ -26,6 +26,13 @@ const portfolios = [
 ]
 
 function PortfolioList() {
+    const { getToken } = useAuth();
+
+    const handleGetToken = async () => {
+        const token = await getToken();
+        console.log("トークン取得", token);
+    }
+
     return (
         <Container maxWidth="lg" sx={{ py: 4 }}>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 3 }}>
@@ -38,6 +45,7 @@ function PortfolioList() {
                         <MenuItem value="likes">いいね数順</MenuItem>
                     </Select>
                 </FormControl>
+                <Button variant="contained" color="primary" onClick={handleGetToken}>トークン取得</Button>
             </Box>
             <Grid2 
                 container 

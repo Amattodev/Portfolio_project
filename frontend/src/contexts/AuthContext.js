@@ -18,6 +18,17 @@ export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    const getToken = async () => {
+        if (!currentUser) return null;
+        try {
+            const token = await currentUser.getIdToken();
+            return token;
+        } catch (error) {
+            console.error("トークン取得エラー", error);
+            return null;
+        }
+    }
+
     //Googleでログイン
     const loginWithGoogle = async () => {
         const provider = new GoogleAuthProvider();
@@ -71,6 +82,7 @@ export function AuthProvider({ children }) {
         signup,
         login,
         logout,
+        getToken,
     };
 
     return (

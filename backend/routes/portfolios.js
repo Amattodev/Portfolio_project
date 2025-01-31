@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Portfolio = require('../models/portfolio');
 const authMiddleware = require('../auth');
-
+const User = require('../models/user');
 //ポートフォリオ一覧を取得
 router.get('/', async(req, res) => {
     try {
@@ -15,34 +15,20 @@ router.get('/', async(req, res) => {
     }
 })
 
-// //新規ポートフォリオを作成
-// router.post('/', authMiddleware, async(req, res) => {
-//     const portfolio = new Portfolio({
-//         title: req.body.title,
-//         description: req.body.description,
-//         imageUrl: req.body.imageUrl,
-//         githubUrl: req.body.githubUrl,
-//         deployUrl: req.body.deployUrl,
-//         user: req.user.id
-//     });
+//新規ポートフォリオを作成
+router.post('/', authMiddleware, async(req, res) => {
+    const dbUser = await User.findOne({uid: req.user.uid});
+    if (!dbUser) {
+        return res.status(404).json({message: 'User not found'});
+    }
 
-//     try {
-//         const newPortfolio = await portfolio.save();
-//         res.status(201).json(newPortfolio);
-//     } catch (error) {
-//         res.status(400).json({message: error.message})
-//     }
-// })
-
-//テスト用(一時的なミドルウェア無効化)
-router.post('/', async(req, res) => {
     const portfolio = new Portfolio({
         title: req.body.title,
         description: req.body.description,
         imageUrl: req.body.imageUrl,
         githubUrl: req.body.githubUrl,
         deployUrl: req.body.deployUrl,
-        user: "dummy-user-id"
+        user: dbUser._id
     });
 
     try {
@@ -52,6 +38,25 @@ router.post('/', async(req, res) => {
         res.status(400).json({message: error.message})
     }
 })
+
+//テスト用(一時的なミドルウェア無効化)
+// router.post('/', async(req, res) => {
+//     const portfolio = new Portfolio({
+//         title: req.body.title,
+//         description: req.body.description,
+//         imageUrl: req.body.imageUrl,
+//         githubUrl: req.body.githubUrl,
+//         deployUrl: req.body.deployUrl,
+//         user: "dummy-user-id"
+//     });
+
+//     try {
+//         const newPortfolio = await portfolio.save();
+//         res.status(201).json(newPortfolio);
+//     } catch (error) {
+//         res.status(400).json({message: error.message})
+//     }
+// })
 
 //特定のポートフォリオを取得
 router.get('/:id', async(req, res) => {
