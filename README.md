@@ -153,3 +153,5 @@ POSTMAN:https://web.postman.co/workspace/My-Workspace~976f1657-3377-4cbc-8189-5f
 ② バックエンドのエンドポイント作成
 ③ フロントエンドの画像アップロード機能の実装
 ④ サーバー設定の更新
+
+=> Fire Storageの設定にて、課金を検討中
