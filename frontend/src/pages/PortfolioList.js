@@ -1,36 +1,36 @@
-import { Container, Grid2, TextField, Box, Select, MenuItem, FormControl, Button } from '@mui/material';
+import { Container, Grid2, TextField, Box, Select, MenuItem, FormControl, Button, CircularProgress } from '@mui/material';
 import PortfolioCard from './PortfolioCard';
 import { useAuth } from '../contexts/AuthContext';
-const portfolios = [
-    {
-        id: 1,
-        title: "アプリタイトル1アプリタイトル1アプリタイトル1アプリタイトル1",
-        description: "テスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてす",
-        image: "/images/application_image1.jpg",
-        likes: 10,
-    },
-    {
-        id: 2,
-        title: "アプリタイトル2",
-        description: "アプリの説明",
-        image: "/images/application_image1.jpg",
-        likes: 20,
-    },
-    {
-        id: 3,
-        title: "アプリタイトル3",
-        description: "アプリの説明",
-        image: "/images/application_image1.jpg",
-        likes: 30,
-    }
-]
+import { useState, useEffect } from 'react';
+import { getPortfolios } from '../api/portfolios';
 
 function PortfolioList() {
-    const { getToken } = useAuth();
+    const [portfolios, setPortfolios] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    const handleGetToken = async () => {
-        const token = await getToken();
-        console.log("トークン取得", token);
+    useEffect(() => {
+        fetchPortfolios();
+    }, []);
+
+    const fetchPortfolios = async () => {
+        try {
+            const data = await getPortfolios();
+            setPortfolios(data);
+        } catch (error) {
+            setError('ポートフォリオの取得に失敗しました');
+        } finally {
+            setLoading(false)
+        }
+            
+    }
+
+    if (loading) {
+        return (
+            <Container sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>>
+                <CircularProgress />
+            </Container>
+        )
     }
 
     return (
@@ -45,7 +45,6 @@ function PortfolioList() {
                         <MenuItem value="likes">いいね数順</MenuItem>
                     </Select>
                 </FormControl>
-                <Button variant="contained" color="primary" onClick={handleGetToken}>トークン取得</Button>
             </Box>
             <Grid2 
                 container 
