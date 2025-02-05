@@ -1,6 +1,5 @@
-import { Container, Grid2, TextField, Box, Select, MenuItem, FormControl, Button, CircularProgress } from '@mui/material';
+import { Container, Grid2, Box, Select, MenuItem, FormControl,CircularProgress } from '@mui/material';
 import PortfolioCard from './PortfolioCard';
-import { useAuth } from '../contexts/AuthContext';
 import { useState, useEffect } from 'react';
 import { getPortfolios } from '../api/portfolios';
 
