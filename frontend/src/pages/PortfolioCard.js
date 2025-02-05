@@ -75,10 +75,10 @@ function PortfolioCard({ portfolio }) {
                 justifyContent: 'space-between',
             }}>
                 <Box>
-                    <IconButton size="small">
+                    <IconButton size="small" href={portfolio.githubUrl} target="_blank">
                         <GitHubIcon />
                     </IconButton>
-                    <IconButton size="small">
+                    <IconButton size="small" href={portfolio.deployUrl} target="_blank">
                         <LanguageIcon />
                     </IconButton>
                 </Box>
