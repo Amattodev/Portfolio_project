@@ -19,7 +19,11 @@ function SignUp() {
 
     const handleGoogleSignup = async () => {
         try {
-            await loginWithGoogle();
+            const user =await loginWithGoogle();
+            await createUserProfile({
+                uid: user.uid,
+                username: user.displayName || 'Anonymous'
+            })
             navigate('/profile/setup')
         } catch (error) {
             setError('Googleでの登録に失敗しました');

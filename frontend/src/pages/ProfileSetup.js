@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import { 
     Box, 
     Container, 
@@ -15,10 +16,25 @@ import {
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import { updateProfile } from '../api/users';
 
 function ProfileSetup() {
     const navigate = useNavigate();
+    const { currentUser } = useAuth();
     const [previewUrl, setPreviewUrl] = useState(null);
+    const [formData, setFormData] = useState({
+        username: '',
+        bio: '',
+        twitter: '',
+        github: ''  
+    })
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        })
+    }
 
     //非同期処理をよりわかりやすく書くべき
     const handleImageChange = (e) => {
@@ -38,10 +54,25 @@ function ProfileSetup() {
             reader.readAsDataURL(file);
         }
     }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            await updateProfile({
+                ...formData,
+                photoURL: previewUrl || currentUser?.photoURL || ''
+            })
+            navigate('/profile');
+        } catch (error) {
+            console.log('Error details:', error);
+        }
+    }
  
     return (
         <Container maxWidth="sm">
             <Box
+                onSubmit={handleSubmit}
                 sx={{
                     marginTop: 8,
                     display: 'flex',
@@ -86,6 +117,8 @@ function ProfileSetup() {
                         fullWidth
                         label="ユーザー名"
                         name="username"
+                        value={formData.username}
+                        onChange={handleChange}
                     />
                     <TextField
                         margin="normal"
@@ -94,6 +127,8 @@ function ProfileSetup() {
                         name="bio"
                         multiline
                         rows={4}
+                        value={formData.bio}
+                        onChange={handleChange}
                     />
                     <Stack spacing={2}>
                         <TextField
@@ -101,6 +136,8 @@ function ProfileSetup() {
                             fullWidth
                             label="Twitter"
                             name="twitter"
+                            value={formData.twitter}
+                            onChange={handleChange}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
@@ -114,6 +151,8 @@ function ProfileSetup() {
                             fullWidth
                             label="GitHub"
                             name="github"
+                            value={formData.github}
+                            onChange={handleChange}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">

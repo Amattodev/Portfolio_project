@@ -40,7 +40,7 @@ router.get('/profile', authMiddleware, async(req, res) => {
 //プロフィール更新
 router.put('/profile', authMiddleware, async(req, res) => {
     try {
-        const user = await User.findOne({uid: req.user.id});
+        const user = await User.findOne({uid: req.user.uid});
         if (!user) {
             return res.status(404).json({message: 'User not found'});
         }
@@ -54,7 +54,7 @@ router.put('/profile', authMiddleware, async(req, res) => {
         };
 
         const updatedUser = await User.findOneAndUpdate(
-            { uid: req.user.id }, 
+            { uid: req.user.uid }, 
             updates, 
             {new: true}
         );
