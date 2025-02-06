@@ -12,6 +12,9 @@ export async function updateProfile(userdata) {
     return client.put('/users/profile', userdata);
 }
 
-export async function getUsersPortfolios(userId) {
-    return client.get(`/users/${userId}/portfolios`);
+export async function getUsersPortfolios(uid) {
+    if (!uid) {
+        throw new Error('uidが必要です');
+    }
+    return client.get(`/users/${uid}/portfolios`);
 }

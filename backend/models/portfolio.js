@@ -13,7 +13,7 @@ const portfolioSchema = new mongoose.Schema({
     },
     imageUrl: {
         type: String,
-        required: true
+        default: ''
     },
     githubUrl: String,
     deployUrl: String,

@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import { 
     Container, 
     Box, 
@@ -12,9 +14,21 @@ import {
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LanguageIcon from '@mui/icons-material/Language';
+import { createPortfolio } from '../api/portfolios';
 
 function NewPortfolio() {
+    const navigate = useNavigate();
+    const { currentUser } = useAuth();
     const [previewUrl, setPreviewUrl] = useState(null);
+    const [formData, setFormData] = useState({
+        title: '',
+        description: '',
+        githubUrl: '',
+        deployUrl: '',
+        imageUrl: ''
+    });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -22,14 +36,34 @@ function NewPortfolio() {
             const reader = new FileReader();
             reader.onloadend = () => {
                 setPreviewUrl(reader.result);
-            }
+                setFormData(prev => ({
+                    ...prev,
+                    imageUrl: reader.result
+                }));
+            };
             reader.readAsDataURL(file);
         }
     }
 
-    const handleSubmit = (e) => {
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(e.target.value);
+        setLoading(true);
+        setError(null);
+        try {
+            await createPortfolio(formData);
+            navigate('/profile')
+        } catch (error) {
+            console.error('ポートフォリオの作成に失敗しました', error);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -42,6 +76,8 @@ function NewPortfolio() {
                         label="ポートフォリオタイトル"
                         name="title"
                         required
+                        value={formData.title}
+                        onChange={handleChange}
                     />
                     <Box>
                         <input 
@@ -49,6 +85,7 @@ function NewPortfolio() {
                             accept="image/*" 
                             id="portfolio-image"
                             hidden
+                            value={formData.imageUrl}
                             onChange={handleImageChange}
                         />
                         <label htmlFor="portfolio-image">
@@ -84,15 +121,21 @@ function NewPortfolio() {
                         required
                         multiline
                         rows={4}
+                        value={formData.description}
+                        onChange={handleChange}
                     />
                     <TextField
                         margin="normal"
                         fullWidth
                         label="GitHubのURL"
-                        name="github_url"
+                        name="githubUrl"
+                        value={formData.githubUrl}
+                        onChange={handleChange}
                         InputProps={{
                             startAdornment: (
-                                <InputAdornment position="start">
+                                <InputAdornment 
+                                    position="start" 
+                                >
                                     <GitHubIcon />
                                 </InputAdornment>
                             )
@@ -102,10 +145,14 @@ function NewPortfolio() {
                         margin="normal"
                         fullWidth
                         label="デプロイURL"
-                        name="deploy_url"
+                        name="deployUrl"
+                        value={formData.deployUrl}
+                        onChange={handleChange}
                         InputProps={{
                             startAdornment: (
-                                <InputAdornment position="start">
+                                <InputAdornment 
+                                    position="start"
+                                >
                                     <LanguageIcon />
                                 </InputAdornment>
                             )

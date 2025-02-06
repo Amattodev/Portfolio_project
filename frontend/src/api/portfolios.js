@@ -7,3 +7,7 @@ export async function getPortfolios() {
 export async function getPortfolioById(id) {
     return client.get(`/portfolios/${id}`);
 }
+
+export async function createPortfolio(portfolioData) {
+    return client.post('/portfolios', portfolioData)
+}

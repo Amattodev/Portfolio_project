@@ -64,24 +64,28 @@ function Profile() {
         }
         const fetchProfileData = async () => {
             try {
-                const token = await currentUser.getIdToken();
-                console.log('Current token:', token);
-
                 setLoading(true);
                 const profileData = await getProfile();
                 console.log('Profile data:', profileData);
+
                 if (!profileData) {
                     setError('プロフィールの取得に失敗しました');
                     return;
                 }
-                // const portfoliosData = await getUsersPortfolios(profileData.uid);
-                // if (!portfoliosData) {
-                //     setError('ポートフォリオの取得に失敗しました');
-                //     return;
-                // }
 
+                if (profileData.uid) {
+                    try {
+                        const portfoliosData = await getUsersPortfolios(profileData.uid);
+                        console.log('Portfolios:', portfoliosData);
+                        setPortfolios(portfoliosData || []);
+    
+                    } catch (portfolioError) {
+                        console.error('ポートフォリオの取得に失敗しました', portfolioError);
+                        setPortfolios([]);
+                    }
+    
+                }
                 setProfile(profileData);
-                // setPortfolios(portfoliosData);
 
             } catch(error) {
                 console.log('Error fetching profile:', error);
@@ -92,6 +96,8 @@ function Profile() {
         }
         fetchProfileData();
     }, [currentUser, navigate])
+
+    
 
     if (loading) {
         return (
@@ -169,7 +175,7 @@ function Profile() {
                     </Box>
                 </Box>
             </Paper>
-            {/* <Box sx={{ mt: 4, mb: 4 }}>
+            <Box sx={{ mt: 4, mb: 4 }}>
                 <Grid2 
                     container 
                     spacing={3}
@@ -183,7 +189,7 @@ function Profile() {
                         </Grid2>
                     ))}
                 </Grid2>
-            </Box> */}
+            </Box>
         </Container>
     )
 }
