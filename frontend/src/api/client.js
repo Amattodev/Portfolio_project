@@ -1,6 +1,6 @@
 import {auth} from '../firebase/firebase';
 
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = 'http://localhost:8002/api';
 
 //APIリクエストを送るためのヘッダーを作成
 async function getAuthHeaders() {

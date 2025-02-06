@@ -27,7 +27,7 @@ router.post('/profile', authMiddleware, async(req, res) => {
 //プロフィール取得
 router.get('/profile', authMiddleware, async(req, res) => {
     try {
-        const user  = await User.findOne({uid: req.user.id});
+        const user  = await User.findOne({uid: req.user.uid});
         if (!user) {
             return res.status(404).json({message: 'User not found'});
         }
