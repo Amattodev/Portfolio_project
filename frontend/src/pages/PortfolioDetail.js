@@ -21,22 +21,7 @@ function PortfolioDetail() {
     const [portfolio, setPortfolio] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-
-    // const portfolio ={
-    //     id: 1,
-    //     title: "アプリタイトル1",
-    //     description: "テスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてす",
-    //     image: "/images/application_image1.jpg",
-    //     likes: 10,
-    //     github_url: "https://github.com/Amattodev/Phase1-format",
-    //     deploy_url: "http://localhost:3000/",
-    //     user: {
-    //         name: "テストユーザー",
-    //         avatar: "/images/application_image1.jpg"
-    //     },
-    //     created_at: "2025-01-24",
-    // }
-
+    
     useEffect(() => {
         const fetchPortfolio = async () => {
             try {

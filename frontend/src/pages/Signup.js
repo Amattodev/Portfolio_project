@@ -4,6 +4,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import { Link } from 'react-router-dom';
 import {useAuth} from '../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom';
+import { createUserProfile } from '../api/users';
 
 function SignUp() {
     const { loginWithGoogle, signup } = useAuth();
@@ -35,7 +36,12 @@ function SignUp() {
         }
 
         try {
-            await signup(formData.email, formData.password);
+            const userCredential = await signup(formData.email, formData.password);
+
+            await createUserProfile({
+                uid: userCredential.uid,
+                username: formData.username
+            });
             navigate('/profile/setup')
         } catch (error) {
             console.log('Error details:', error);
