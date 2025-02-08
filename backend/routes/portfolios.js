@@ -3,6 +3,8 @@ const router = express.Router();
 const Portfolio = require('../models/portfolio');
 const authMiddleware = require('../auth');
 const User = require('../models/user');
+
+
 //ポートフォリオ一覧を取得
 router.get('/', async(req, res) => {
     try {
@@ -12,6 +14,30 @@ router.get('/', async(req, res) => {
         res.json(portfolios);
     } catch (error) {
         res.status(500).json({message: error.message})
+    }
+})
+
+//ポートフォリオの検索
+router.get('/', async(req, res) => {
+    try {
+        const { search } = req.query;
+
+        if (search) {
+            query = {
+                $or: [
+                    {title: {$regex: search, $options: 'i'}},
+                    {description: {$regex: search, $options: 'i'}},
+                    {'user.username': {$regex: search, $options: 'i'}},
+                ]
+            }
+        }
+        const portfolios = await Portfolio.find(query)
+            .populate('user', 'username photoURL')
+            .sort({createdAt: -1});
+        res.json(portfolios);
+
+    } catch (error) {
+        res.status(500).json({message: error.message});
     }
 })
 

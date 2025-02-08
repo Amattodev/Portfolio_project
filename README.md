@@ -175,3 +175,5 @@ POSTMAN:https://web.postman.co/workspace/My-Workspace~976f1657-3377-4cbc-8189-5f
 ・フロントエンドからAPIリクエストを送る処理をまとめている
 
 ## コンポーネントごとに実装
+・開発メニュのネットワークでAPIリクエストが成功しているか確認
+
