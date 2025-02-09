@@ -6,23 +6,23 @@ const User = require('../models/user');
 
 
 //ポートフォリオ一覧を取得
-router.get('/', async(req, res) => {
-    try {
-        const portfolios = await Portfolio.find()
-            .populate('user', 'username photoURL')
-            .sort({createdAt: -1});
-        res.json(portfolios);
-    } catch (error) {
-        res.status(500).json({message: error.message})
-    }
-})
+// router.get('/', async(req, res) => {
+//     try {
+//         const portfolios = await Portfolio.find()
+//             .populate('user', 'username photoURL')
+//             .sort({createdAt: -1});
+//         res.json(portfolios);
+//     } catch (error) {
+//         res.status(500).json({message: error.message})
+//     }
+// })
 
 //ポートフォリオの検索
 router.get('/', async(req, res) => {
     try {
         const { search } = req.query;
 
-        if (search) {
+        if (search && search.trim() !== '') {
             query = {
                 $or: [
                     {title: {$regex: search, $options: 'i'}},

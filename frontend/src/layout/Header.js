@@ -3,7 +3,7 @@ import AddIcon from '@mui/icons-material/Add';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import PersonIcon from '@mui/icons-material/Person';
 import SearchIcon from '@mui/icons-material/Search';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LoginModal from '../components/LoginModal';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 function Header () {
     const { currentUser, logout } = useAuth();
     const { searchQuery, setSearchQuery } = useSearch();
+    const [inputValue, setInputValue] = useState(searchQuery);
 
     const [openLoginModal, setOpenLoginModal] = useState(false);
 
@@ -34,9 +35,20 @@ function Header () {
     }
 
     const handleSearch = (e) => {
-        setSearchQuery(e.target.value);
-        navigate('/');
-    }
+        setInputValue(e.target.value);
+    };
+    
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            setSearchQuery(inputValue);
+            navigate('/');
+        }
+    };
+
+    useEffect(() => {
+        setInputValue(searchQuery);
+    }, [searchQuery]);
 
     return (
         <AppBar position="static" color= "default" elevation={1}>
@@ -58,8 +70,9 @@ function Header () {
                     <TextField
                         size="small"
                         placeholder="ポートフォリオを検索する"
-                        value={searchQuery}
+                        value={inputValue}
                         onChange={handleSearch}
+                        onKeyDown={handleKeyPress}
                         sx={{
                             position: 'absolute',
                             left: '50%',

@@ -1,7 +1,7 @@
 import { Container, Grid2, Box, Select, MenuItem, FormControl,CircularProgress } from '@mui/material';
 import PortfolioCard from './PortfolioCard';
 import { useState, useEffect } from 'react';
-import { getPortfolios } from '../api/portfolios';
+import { getPortfolios, searchPortfolios } from '../api/portfolios';
 import { useSearch } from '../contexts/SearchContext';
 function PortfolioList() {
     const [portfolios, setPortfolios] = useState([]);
@@ -15,9 +15,11 @@ function PortfolioList() {
 
     const fetchPortfolios = async () => {
         try {
-            const data = await getPortfolios(searchQuery);
+            setLoading(true);
+            const data = await searchPortfolios(searchQuery.trim());
             setPortfolios(data);
         } catch (error) {
+            console.error('Error fetching portfolios:', error);  
             setError('ポートフォリオの取得に失敗しました');
         } finally {
             setLoading(false)
