@@ -7,12 +7,15 @@ import { useState } from 'react';
 import LoginModal from '../components/LoginModal';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-
+import { useSearch } from '../contexts/SearchContext';
+import { useNavigate } from 'react-router-dom';
 function Header () {
     const { currentUser, logout } = useAuth();
-    console.log(currentUser);
+    const { searchQuery, setSearchQuery } = useSearch();
 
     const [openLoginModal, setOpenLoginModal] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleLoginClick = () => {
         setOpenLoginModal(true);
@@ -28,6 +31,11 @@ function Header () {
         } catch (error) {
             console.log('ログアウトに失敗しました:', error)
         }
+    }
+
+    const handleSearch = (e) => {
+        setSearchQuery(e.target.value);
+        navigate('/');
     }
 
     return (
@@ -50,6 +58,8 @@ function Header () {
                     <TextField
                         size="small"
                         placeholder="ポートフォリオを検索する"
+                        value={searchQuery}
+                        onChange={handleSearch}
                         sx={{
                             position: 'absolute',
                             left: '50%',

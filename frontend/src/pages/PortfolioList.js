@@ -2,19 +2,20 @@ import { Container, Grid2, Box, Select, MenuItem, FormControl,CircularProgress }
 import PortfolioCard from './PortfolioCard';
 import { useState, useEffect } from 'react';
 import { getPortfolios } from '../api/portfolios';
-
+import { useSearch } from '../contexts/SearchContext';
 function PortfolioList() {
     const [portfolios, setPortfolios] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
+    const { searchQuery } = useSearch();
 
     useEffect(() => {
         fetchPortfolios();
-    }, []);
+    }, [searchQuery]);
 
     const fetchPortfolios = async () => {
         try {
-            const data = await getPortfolios();
+            const data = await getPortfolios(searchQuery);
             setPortfolios(data);
         } catch (error) {
             setError('ポートフォリオの取得に失敗しました');
