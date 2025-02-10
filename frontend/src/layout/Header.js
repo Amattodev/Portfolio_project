@@ -34,6 +34,13 @@ function Header () {
         }
     }
 
+    const handleLogoClick = (e) => {
+        e.preventDefault();
+        setSearchQuery('');
+        setInputValue('');
+        navigate('/');
+    }
+
     const handleSearch = (e) => {
         setInputValue(e.target.value);
     };
@@ -61,6 +68,7 @@ function Header () {
                         variant='h6' 
                         component={Link}
                         to="/"
+                        onClick={handleLogoClick}
                         sx={{
                             fontWeight: 'bold',
                         }}

@@ -17,7 +17,7 @@ function PortfolioList() {
         try {
             setLoading(true);
             const data = await searchPortfolios(searchQuery.trim());
-            setPortfolios(data);
+            setPortfolios(data || []);
         } catch (error) {
             console.error('Error fetching portfolios:', error);  
             setError('ポートフォリオの取得に失敗しました');
