@@ -4,19 +4,6 @@ const Portfolio = require('../models/portfolio');
 const authMiddleware = require('../auth');
 const User = require('../models/user');
 
-
-//ポートフォリオ一覧を取得
-// router.get('/', async(req, res) => {
-//     try {
-//         const portfolios = await Portfolio.find()
-//             .populate('user', 'username photoURL')
-//             .sort({createdAt: -1});
-//         res.json(portfolios);
-//     } catch (error) {
-//         res.status(500).json({message: error.message})
-//     }
-// })
-
 //ポートフォリオの検索
 router.get('/', async(req, res) => {
     try {
@@ -50,7 +37,7 @@ router.get('/', async(req, res) => {
 
 //新規ポートフォリオを作成
 router.post('/', authMiddleware, async(req, res) => {
-    const dbUser = await User.findOne({uid: req.user.uid});
+    const dbUser = await User.findOne({uid: req.user.uid}); 
     if (!dbUser) {
         return res.status(404).json({message: 'User not found'});
     }
@@ -66,30 +53,12 @@ router.post('/', authMiddleware, async(req, res) => {
 
     try {
         const newPortfolio = await portfolio.save();
+        await dbUser.updatePortfolioCount();
         res.status(201).json(newPortfolio);
     } catch (error) {
         res.status(400).json({message: error.message})
     }
 })
-
-//テスト用(一時的なミドルウェア無効化)
-// router.post('/', async(req, res) => {
-//     const portfolio = new Portfolio({
-//         title: req.body.title,
-//         description: req.body.description,
-//         imageUrl: req.body.imageUrl,
-//         githubUrl: req.body.githubUrl,
-//         deployUrl: req.body.deployUrl,
-//         user: "dummy-user-id"
-//     });
-
-//     try {
-//         const newPortfolio = await portfolio.save();
-//         res.status(201).json(newPortfolio);
-//     } catch (error) {
-//         res.status(400).json({message: error.message})
-//     }
-// })
 
 //特定のポートフォリオを取得
 router.get('/:id', async(req, res) => {
@@ -105,4 +74,58 @@ router.get('/:id', async(req, res) => {
     }
 })
 
+//いいねの追加/削除
+router.post('/:id/like', authMiddleware, async(req, res) => {
+    try {
+        const portfolio = await Portfolio.findById(req.params.id);
+        if (!portfolio) {
+            return res.status(404).json({message: 'Portfolio not found'});
+        }
+
+        const userId = req.user.uid;
+        const likeIndex = portfolio.likes.indexOf(userId); 
+
+        if (likeIndex === -1) {
+            portfolio.likes.push(userId);
+        } else {
+            portfolio.likes.splice(likeIndex, 1);
+        }
+
+        await portfolio.save();
+
+        const owner = await User.findById(portfolio.user);
+        await owner.updateTotalLikes();
+
+        res.json({
+            likes: portfolio.likes.length,
+            isLiked: portfolio.likes.includes(req.user._id)
+        });
+
+
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+
+    //ポートフォリオの削除
+    router.delete('/:id', authMiddleware, async(req, res) => {
+        try {
+            const portfolio = await Portfolio.findById(req.params.id);
+            if (!portfolio ) {
+                return res.status(404).json({message: 'Portfolio not found'});
+            }
+
+            const dbUser = await User.findOne({uid: req.user.uid});
+            if (portfolio.user.toString() !== dbUser._id.toString()) {
+                return res.status(403).json({message: 'Unauthorized'});
+            }
+
+            await portfolio.deleteOne(); 
+            await dbUser.updatePortfolioCount();
+            
+            res.json({message: 'Portfolio deleted successfully'});
+        } catch (error) {
+            res.status(500).json({message: error.message})
+        }
+    })
+})
 module.exports = router;
