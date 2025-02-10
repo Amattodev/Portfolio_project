@@ -82,11 +82,15 @@ router.post('/:id/like', authMiddleware, async(req, res) => {
             return res.status(404).json({message: 'Portfolio not found'});
         }
 
-        const userId = req.user.uid;
-        const likeIndex = portfolio.likes.indexOf(userId); 
+        const dbUser = await User.findOne({uid: req.user.uid});
+        if (!dbUser) {
+            return res.status(404).json({message: 'User not found'});
+        }
+
+        const likeIndex = portfolio.likes.indexOf(dbUser._id);
 
         if (likeIndex === -1) {
-            portfolio.likes.push(userId);
+            portfolio.likes.push(dbUser._id);
         } else {
             portfolio.likes.splice(likeIndex, 1);
         }
@@ -97,8 +101,8 @@ router.post('/:id/like', authMiddleware, async(req, res) => {
         await owner.updateTotalLikes();
 
         res.json({
-            likes: portfolio.likes.length,
-            isLiked: portfolio.likes.includes(req.user._id)
+            likesCount: portfolio.likes.length,
+            isLiked: portfolio.likes.includes(dbUser._id)
         });
 
 

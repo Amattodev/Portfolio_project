@@ -22,11 +22,6 @@ const portfolioSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    //　一時的なテスト
-    // user: {
-    //     type: String,
-    //     required: true
-    // },
     likes: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

@@ -4,11 +4,34 @@ import { Card, CardContent, CardMedia, CardActions, Typography, Box, IconButton,
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LanguageIcon from '@mui/icons-material/Language';
 import FavoriteIcon from '@mui/icons-material/FavoriteBorder';
+import { useAuth } from '../contexts/AuthContext';
+import { toggleLike } from '../api/portfolios';
+import { useState } from 'react';
 function PortfolioCard({ portfolio }) {
     const navigate = useNavigate();
+    const { currentUser } = useAuth();
+    const [isLiked, setIsLiked] = useState(false);
+    const [likeCount, setLikeCount] = useState(portfolio.likes.length);
 
     const handleCardClick = () => {
         navigate(`/portfolio/${portfolio._id}`)
+    }
+
+    const handleLikeClick = async (e) => {
+        e.stopPropagation();
+
+        //ログインを促す処理
+        if (!currentUser) {
+            return;
+        }
+
+        try {
+            const response = await toggleLike(portfolio._id);
+            setIsLiked(response.isLiked);
+            setLikeCount(response.likesCount);
+        } catch (error) {
+            console.error('Error toggling like:', error);
+        }
     }
 
     return (
@@ -83,11 +106,11 @@ function PortfolioCard({ portfolio }) {
                     </IconButton>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <IconButton size="small">
-                        <FavoriteIcon />
+                    <IconButton size="small" onClick={handleLikeClick}>
+                        <FavoriteIcon color={isLiked ? 'error' : 'inherit'}/>
                     </IconButton>
                     <Typography variant="body2" color="text.secondary">
-                        {portfolio.likes}
+                        {likeCount}
                     </Typography>
                 </Box>
             </CardActions>

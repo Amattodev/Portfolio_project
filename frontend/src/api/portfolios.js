@@ -16,3 +16,11 @@ export async function searchPortfolios(search = '') {
     const queryParams = search ? `?search=${encodeURIComponent(search)}` : '';
     return client.get(`/portfolios${queryParams}`);
 }
+
+export async function toggleLike(portfolioId) {
+    return client.post(`/portfolios/${portfolioId}/like`);
+}
+
+// export async function deletePortfolio(portfolioId) {
+//     return client.delete(`/portfolios/${portfolioId}`);
+// }
