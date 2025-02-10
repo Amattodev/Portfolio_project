@@ -15,18 +15,24 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import LanguageIcon from '@mui/icons-material/Language';
 import FavoriteIcon from '@mui/icons-material/FavoriteBorder';
 import { getPortfolioById } from '../api/portfolios';
+import { useAuth } from '../contexts/AuthContext';
+import { toggleLike } from '../api/portfolios';
 function PortfolioDetail() {
-    //APIを設計していないため、まだここのidは使われていない
     const { id } = useParams();
     const [portfolio, setPortfolio] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
+    const { currentUser } = useAuth();
+    const [isLiked, setIsLiked] = useState(false);
+    const [likeCount, setLikeCount] = useState(portfolio?.likes?.length);
     
     useEffect(() => {
         const fetchPortfolio = async () => {
             try {
                 const data = await getPortfolioById(id);
                 setPortfolio(data);
+                setLikeCount(data.likes.length);
+                setIsLiked(data.likes.includes(currentUser?._id));
             } catch (error) {
                 setError('ポートフォリオの取得に失敗しました');
             } finally {
@@ -35,6 +41,21 @@ function PortfolioDetail() {
         }
         fetchPortfolio();
     }, [id]);
+
+    const handleLikeClick = async () => {
+
+        if (!currentUser) {
+            return;
+        }
+
+        try {
+            const response = await toggleLike(id);
+            setIsLiked(response.isLiked);
+            setLikeCount(response.likesCount);
+        } catch (error) {
+            console.error('Error toggling like:', error);
+        }
+    }
 
     if(loading) {
         return (
@@ -85,11 +106,11 @@ function PortfolioDetail() {
                     </IconButton>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <IconButton>
-                        <FavoriteIcon />
+                    <IconButton onClick={handleLikeClick}>
+                        <FavoriteIcon color={isLiked ? 'error' : 'inherit'}/>
                     </IconButton>
                     <Typography>
-                        {portfolio.likes}
+                        {likeCount}
                     </Typography>
                 </Box>
             </Stack>
