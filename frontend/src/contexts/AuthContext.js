@@ -38,6 +38,7 @@ export function AuthProvider({ children }) {
             return result.user;
         } catch (error) {
             console.error('Google login error:', error);
+            setCurrentUser(null);
             throw error;
         }
     };
@@ -48,6 +49,7 @@ export function AuthProvider({ children }) {
             const result = await createUserWithEmailAndPassword(auth, email, password);
             return result.user;
         } catch (error) {
+
             throw error;
         }
     };
@@ -59,6 +61,7 @@ export function AuthProvider({ children }) {
             const result = await signInWithEmailAndPassword(auth, email, password);
             return result.user;
         } catch (error) {
+            setCurrentUser(null);
             throw error;
         }
     };

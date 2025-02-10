@@ -122,6 +122,7 @@ function LoginModal({ open, onClose, onLogin }) {
                         color="primary"  
                         component={Link}
                         to="/signup"
+                        onClick={onClose}
                         sx={{ 
                             textTransform: 'none', 
                             ml: 0.5 

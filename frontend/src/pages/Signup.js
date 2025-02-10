@@ -41,12 +41,18 @@ function SignUp() {
 
         try {
             const userCredential = await signup(formData.email, formData.password);
-
-            await createUserProfile({
-                uid: userCredential.uid,
-                username: formData.username
-            });
-            navigate('/profile/setup')
+            try {
+                await createUserProfile({
+                    uid: userCredential.uid,
+                    username: formData.username
+                });
+                navigate('/profile/setup')
+            } catch (error) {
+                if (error.message.includes('User already exists')) {
+                    setError('このアカウントは既に存在しています');
+                    return;
+                }
+            }
         } catch (error) {
             console.log('Error details:', error);
             switch (error.code) {
