@@ -24,11 +24,17 @@ router.get('/', async(req, res) => {
         let query = {};
 
         if (search && search.trim() !== '') {
+            const users = await User.find({
+                username: {$regex: search, $options: 'i'}
+            })
+
+            const userIds = users.map(user => user._id);
+
             query = {
                 $or: [
                     {title: {$regex: search, $options: 'i'}},
                     {description: {$regex: search, $options: 'i'}},
-                    {'user.username': {$regex: search, $options: 'i'}},
+                    {user: { $in: userIds }},
                 ]
             }
         }
