@@ -51,3 +51,19 @@ export async function put(endpoint, data) {
     }
     return response.json();
 }
+
+//DELETEリクエストの処理
+export const del = async (path) => {
+    const idToken = await auth.currentUser?.getIdToken();
+    const response = await fetch(`${API_BASE_URL}${path}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${idToken}`
+        }
+    });
+    if (!response.ok) {
+        throw new Error('Failed to delete portfolio');
+    }
+    return response.json();
+}

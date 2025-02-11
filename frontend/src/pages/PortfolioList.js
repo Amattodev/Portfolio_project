@@ -57,7 +57,10 @@ function PortfolioList() {
             >
                 {portfolios.map((portfolio) => (
                     <Grid2 xs={12} sm={6} md={4} key={portfolio.id}>
-                        <PortfolioCard portfolio={portfolio}/>
+                        <PortfolioCard 
+                            portfolio={portfolio}
+                            showDeleteButton={false}
+                        />
                     </Grid2>
                 ))}
             </Grid2>

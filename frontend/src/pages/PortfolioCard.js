@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { Card, CardContent, CardMedia, CardActions, Typography, Box, IconButton, Avatar } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LanguageIcon from '@mui/icons-material/Language';
 import FavoriteIcon from '@mui/icons-material/FavoriteBorder';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useAuth } from '../contexts/AuthContext';
-import { toggleLike } from '../api/portfolios';
+import { toggleLike, deletePortfolio } from '../api/portfolios';
 import { useState } from 'react';
-function PortfolioCard({ portfolio }) {
+function PortfolioCard({ portfolio, onDelete, showDeleteButton }) {
     const navigate = useNavigate();
     const { currentUser } = useAuth();
     const [isLiked, setIsLiked] = useState(false);
@@ -34,6 +34,16 @@ function PortfolioCard({ portfolio }) {
         }
     }
 
+    const handleDeleteClick = async (e) => {
+        e.stopPropagation();
+        try {
+            await deletePortfolio(portfolio._id);
+            onDelete(portfolio._id);
+        } catch (error) {
+            console.error('Error deleting portfolio:', error);
+        }
+    }
+
     return (
         <Card 
                 sx={{ 
@@ -43,6 +53,7 @@ function PortfolioCard({ portfolio }) {
                 flexDirection: 'column',
                 borderRadius: '10px',
                 cursor: 'pointer',
+                position: 'relative',
             '&:hover': {
                 transform: 'translateY(-4px)',
                 transition: 'transform 0.2s ease-in-out',
@@ -51,6 +62,24 @@ function PortfolioCard({ portfolio }) {
         }}
         onClick={handleCardClick}
         >
+            {showDeleteButton && (
+                <IconButton
+                    onClick={handleDeleteClick}
+                    sx={{
+                        position: 'absolute',
+                        top: 8,
+                        right: 8,
+                        zIndex: 1,
+                        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                        '&:hover': {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                        }
+                    }}
+                    size="small"
+                >
+                    <DeleteIcon />
+                </IconButton>
+            )}
             <CardMedia
                 component="img"
                 height="220"

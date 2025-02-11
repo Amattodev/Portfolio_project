@@ -17,45 +17,22 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import PortfolioCard from './PortfolioCard';
 function Profile() {
-    // const user = {
-    //     username: "テストユーザー",
-    //     bio: "フロントエンドエンジニアです。React/JavaScriptを使用した開発を行っています。",
-    //     avatar: "/images/application_image1.jpg",
-    //     twitter: "https://x.com/Amatto196362",
-    //     github: "https://github.com/Amattodev/Portfolio_project",
-    //     portfolioCount: 5,
-    //     likesCount: 25
-    // }
 
-    // const portfolios = [
-    //     {
-    //         id: 1,
-    //         title: "アプリタイトル1アプリタイトル1アプリタイトル1アプリタイトル1",
-    //         description: "テスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてすテスてす",
-    //         image: "/images/application_image1.jpg",
-    //         likes: 10,
-    //     },
-    //     {
-    //         id: 2,
-    //         title: "アプリタイトル2",
-    //         description: "アプリの説明",
-    //         image: "/images/application_image1.jpg",
-    //         likes: 20,
-    //     },
-    //     {
-    //         id: 3,
-    //         title: "アプリタイトル3",
-    //         description: "アプリの説明",
-    //         image: "/images/application_image1.jpg",
-    //         likes: 30,
-    //     }
-    // ]
     const [profile, setProfile] = useState(null);
     const [portfolios, setPortfolios] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const { currentUser } = useAuth();
+    const [portfolioCount, setPortfolioCount] = useState(0);
+
+    const handleDeletePortfolio = async (deletePortfolioId) => {
+        setPortfolios(prevPortfolios => 
+            prevPortfolios.filter(portfolio => portfolio._id !== deletePortfolioId)
+        )
+        setPortfolioCount(prevCount => prevCount - 1);
+    }
+    
 
     useEffect(() => {
         if(!currentUser) {
@@ -66,7 +43,6 @@ function Profile() {
             try {
                 setLoading(true);
                 const profileData = await getProfile();
-                console.log('Profile data:', profileData);
 
                 if (!profileData) {
                     setError('プロフィールの取得に失敗しました');
@@ -76,12 +52,13 @@ function Profile() {
                 if (profileData.uid) {
                     try {
                         const portfoliosData = await getUsersPortfolios(profileData.uid);
-                        console.log('Portfolios:', portfoliosData);
                         setPortfolios(portfoliosData || []);
+                        setPortfolioCount(portfoliosData.length)
     
                     } catch (portfolioError) {
                         console.error('ポートフォリオの取得に失敗しました', portfolioError);
                         setPortfolios([]);
+                        setPortfolioCount(0);
                     }
     
                 }
@@ -96,7 +73,6 @@ function Profile() {
         }
         fetchProfileData();
     }, [currentUser, navigate])
-
     
 
     if (loading) {
@@ -165,11 +141,11 @@ function Profile() {
                         >
                             <Box sx={{ textAlign: 'center' }}>
                                 <Typography variant="h6">作品数</Typography>
-                                <Typography variant="h6">{profile.portfolioCount}</Typography>
+                                <Typography variant="h6">{portfolioCount}</Typography>
                             </Box>
                             <Box sx={{ textAlign: 'center' }}>
                                 <Typography variant="h6">いいね数</Typography>
-                                <Typography variant="h6">{profile.likesCount}</Typography>
+                                <Typography variant="h6">{profile.totalLikes}</Typography>
                             </Box>
                         </Box>
                     </Box>
@@ -185,7 +161,11 @@ function Profile() {
                 >
                     {portfolios.map((portfolio) => (
                         <Grid2 xs={12} sm={6} md={4} key={portfolio.id}>
-                            <PortfolioCard portfolio={portfolio}/>
+                            <PortfolioCard 
+                                portfolio={portfolio}
+                                showDeleteButton={true}
+                                onDelete={handleDeletePortfolio}
+                            />
                         </Grid2>
                     ))}
                 </Grid2>

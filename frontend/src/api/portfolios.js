@@ -1,5 +1,5 @@
 import * as client from './client';
-
+import { getIdToken } from '../contexts/AuthContext';
 export async function getPortfolios() {
     return client.get('/portfolios');
 }
@@ -21,6 +21,6 @@ export async function toggleLike(portfolioId) {
     return client.post(`/portfolios/${portfolioId}/like`);
 }
 
-// export async function deletePortfolio(portfolioId) {
-//     return client.delete(`/portfolios/${portfolioId}`);
-// }
+export async function deletePortfolio(portfolioId) {
+    return client.del(`/portfolios/${portfolioId}`);
+}
