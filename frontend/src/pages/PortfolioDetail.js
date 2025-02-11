@@ -65,9 +65,9 @@ function PortfolioDetail() {
 
     //ここ一旦保留
     const isOwner = Boolean(
-        currentUser?._id && 
-        portfolio?.user?._id && 
-        currentUser._id === portfolio.user._id
+        currentUser?.uid && 
+        portfolio?.user?.uid && 
+        currentUser.uid === portfolio.user.uid
     );
 
     const handleDelete = async() => {

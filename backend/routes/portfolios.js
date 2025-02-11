@@ -64,7 +64,7 @@ router.post('/', authMiddleware, async(req, res) => {
 router.get('/:id', async(req, res) => {
     try {
         const portfolio = await Portfolio.findById(req.params.id)
-            .populate('user', 'username photoURL');
+            .populate('user', 'username photoURL uid');
         if (!portfolio) {
             return res.status(404).json({message: 'Portfolio not found'});
         }

@@ -39,13 +39,13 @@ function PortfolioList() {
         <Container maxWidth="lg" sx={{ py: 4 }}>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 3 }}>
                 <FormControl size="small" sx={{ minWidth: 120 }}>
-                    <Select
+                    {/* <Select
                         // value={sortBy}
                         // onChange={handleSortChange}
                     >
                         <MenuItem value="newest">新着順</MenuItem>
                         <MenuItem value="likes">いいね数順</MenuItem>
-                    </Select>
+                    </Select> */}
                 </FormControl>
             </Box>
             <Grid2 
