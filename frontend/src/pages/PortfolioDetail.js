@@ -63,7 +63,6 @@ function PortfolioDetail() {
         }
     }
 
-    //ここ一旦保留
     const isOwner = Boolean(
         currentUser?.uid && 
         portfolio?.user?.uid && 

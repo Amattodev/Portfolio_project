@@ -11,6 +11,7 @@ import ProfileSetup from './pages/ProfileSetup';
 import Profile from './pages/Profile';
 import NewPortfolio from './pages/NewPortfolio';
 import PortfolioDetail from './pages/PortfolioDetail';
+import ProfileEdit from './pages/ProfileEdit';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               <Route path="/profile" element={<Profile />}></Route>
               <Route path="/new/portfolio" element={<NewPortfolio />}></Route>
               <Route path="/portfolio/:id" element={<PortfolioDetail />}></Route>
+              <Route path="/profile/edit" element={<ProfileEdit />}></Route>
             </Routes>
           </Router> 
         </ThemeProvider>

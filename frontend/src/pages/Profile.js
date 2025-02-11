@@ -16,6 +16,7 @@ import {
 import TwitterIcon from '@mui/icons-material/Twitter';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import PortfolioCard from './PortfolioCard';
+import EditIcon from '@mui/icons-material/Edit';
 function Profile() {
 
     const [profile, setProfile] = useState(null);
@@ -32,6 +33,12 @@ function Profile() {
         )
         setPortfolioCount(prevCount => prevCount - 1);
     }
+
+    const isOwner = Boolean(
+        currentUser?.uid && 
+        profile?.uid && 
+        currentUser.uid === profile.uid
+    )
     
 
     useEffect(() => {
@@ -101,7 +108,23 @@ function Profile() {
 
     return (
         <Container maxWidth="lg">
-            <Paper elevation={1} sx={{mt: 4, p: 4 }}>
+            <Paper elevation={1} sx={{mt: 4, p: 4, position: 'relative' }}>
+                {isOwner && (
+                    <IconButton
+                        onClick={() => navigate('/profile/edit')}
+                        sx={{
+                            position: 'absolute',
+                            top: 16,
+                            right: 16,
+                            backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                            '&:hover': {
+                                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            }
+                        }}
+                    >   
+                        <EditIcon />
+                    </IconButton>
+                )}
                 <Box
                     sx={{
                         display: 'flex',
