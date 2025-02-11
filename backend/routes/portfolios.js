@@ -123,8 +123,11 @@ router.post('/:id/like', authMiddleware, async(req, res) => {
                 return res.status(403).json({message: 'Unauthorized'});
             }
 
+            const userId = portfolio.user;
+
             await portfolio.deleteOne(); 
             await dbUser.updatePortfolioCount();
+            await dbUser.updateTotalLikes();
             
             res.json({message: 'Portfolio deleted successfully'});
         } catch (error) {

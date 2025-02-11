@@ -47,6 +47,7 @@ router.get('/:uid/portfolios', authMiddleware, async(req, res) => {
         }
 
         const portfolios = await Portfolio.find({ user: user._id })
+            .populate('user', 'username photoURL')
             .sort({ createdAt: -1 });
         res.json(portfolios);
     } catch (error) {
