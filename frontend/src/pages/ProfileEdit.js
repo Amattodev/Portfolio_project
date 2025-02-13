@@ -16,7 +16,7 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { getProfile, updateProfile } from '../api/users';
-
+import { resizeImage, blobToBase64 } from '../pages/imageUtils';
 function ProfileEdit() {
     const navigate = useNavigate();
     const { currentUser } = useAuth();
@@ -54,14 +54,30 @@ function ProfileEdit() {
         });
     };
 
-    const handleImageChange = (e) => {
+    // const handleImageChange = (e) => {
+    //     const file = e.target.files[0];
+    //     if (file) {
+    //         const reader = new FileReader();
+    //         reader.onloadend = () => {
+    //             setPreviewUrl(reader.result);
+    //         };
+    //         reader.readAsDataURL(file);
+    //     }
+    // };
+    const handleImageChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setPreviewUrl(reader.result);
-            };
-            reader.readAsDataURL(file);
+            try {
+                const resizedBlob = await resizeImage(file);
+                const base64String = await blobToBase64(resizedBlob);
+                setPreviewUrl(base64String);
+                setFormData(prev => ({
+                    ...prev,
+                    photoURL: base64String
+                }));
+            } catch (error) {
+                console.error('画像の処理に失敗しました:', error);
+            }
         }
     };
 

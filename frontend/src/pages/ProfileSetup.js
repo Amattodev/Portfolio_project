@@ -17,6 +17,7 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { updateProfile } from '../api/users';
+import { resizeImage, blobToBase64 } from '../pages/imageUtils';
 
 function ProfileSetup() {
     const navigate = useNavigate();
@@ -36,24 +37,78 @@ function ProfileSetup() {
         })
     }
 
-    //非同期処理をよりわかりやすく書くべき
-    const handleImageChange = (e) => {
-        //　inputで選択されたファイルを取得
+    // const resizeImage = (file) => {
+    //     return new Promise((resolve) => {
+    //       const reader = new FileReader();
+    //       reader.onload = (e) => {
+    //         const img = new Image();
+    //         img.onload = () => {
+    //           const canvas = document.createElement('canvas');
+    //           const MAX_WIDTH = 800;
+    //           const MAX_HEIGHT = 800;
+    //           let width = img.width;
+    //           let height = img.height;
+      
+    //           if (width > height) {
+    //             if (width > MAX_WIDTH) {
+    //               height *= MAX_WIDTH / width;
+    //               width = MAX_WIDTH;
+    //             }
+    //           } else {
+    //             if (height > MAX_HEIGHT) {
+    //               width *= MAX_HEIGHT / height;
+    //               height = MAX_HEIGHT;
+    //             }
+    //           }
+      
+    //           canvas.width = width;
+    //           canvas.height = height;
+    //           const ctx = canvas.getContext('2d');
+    //           ctx.drawImage(img, 0, 0, width, height);
+              
+    //           canvas.toBlob((blob) => {
+    //             resolve(blob);
+    //           }, 'image/jpeg', 0.7); // 品質を0.7に設定
+    //         };
+    //         img.src = e.target.result;
+    //       };
+    //       reader.readAsDataURL(file);
+    //     });
+    // };
+
+    // //非同期処理をよりわかりやすく書くべき
+    // const handleImageChange = async (e) => {
+    //     //　inputで選択されたファイルを取得
+    //     const file = e.target.files[0];
+    //     if (file) {
+    //         const resizedImage = await resizeImage(file);
+    //         const reader = new FileReader();
+    //         reader.onloadend = () => {
+    //             setPreviewUrl(reader.result);
+    //             setFormData(prev => ({
+    //                 ...prev,
+    //                 imageUrl: reader.result
+    //             }));
+    //         };
+    //         reader.readAsDataURL(resizedImage);
+    //     }
+    // }
+    const handleImageChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
-            //読み込み方を定義しているだけ
-            //ファイルの内容を読み込む（オブジェクトとして取得）
-            const reader = new FileReader();
-            //読み込みが完了したら、previewUrlに設定
-            reader.onloadend = () => {
-                setPreviewUrl(reader.result);
+            try {
+                const resizedBlob = await resizeImage(file);
+                const base64String = await blobToBase64(resizedBlob);
+                setPreviewUrl(base64String);
+                setFormData(prev => ({
+                    ...prev,
+                    imageUrl: base64String
+                }));
+            } catch (error) {
+                console.error('画像の処理に失敗しました:', error);
             }
-
-            //実際の読み込み処理
-            //データURLへ変換することで、画像を表示できるようにする
-            reader.readAsDataURL(file);
         }
-    }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -68,6 +123,8 @@ function ProfileSetup() {
             console.log('Error details:', error);
         }
     }
+
+    
  
     return (
         <Container maxWidth="sm">

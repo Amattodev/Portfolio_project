@@ -15,6 +15,7 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LanguageIcon from '@mui/icons-material/Language';
 import { createPortfolio } from '../api/portfolios';
+import { resizeImage, blobToBase64 } from '../pages/imageUtils';
 
 function NewPortfolio() {
     const navigate = useNavigate();
@@ -30,21 +31,23 @@ function NewPortfolio() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const handleImageChange = (e) => {
+
+    const handleImageChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setPreviewUrl(reader.result);
+            try {
+                const resizedBlob = await resizeImage(file);
+                const base64String = await blobToBase64(resizedBlob);
+                setPreviewUrl(base64String);
                 setFormData(prev => ({
                     ...prev,
-                    imageUrl: reader.result
+                    imageUrl: base64String
                 }));
-            };
-            reader.readAsDataURL(file);
+            } catch (error) {
+                console.error('画像の処理に失敗しました:', error);
+            }    
         }
     }
-
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -85,7 +88,7 @@ function NewPortfolio() {
                             accept="image/*" 
                             id="portfolio-image"
                             hidden
-                            value={formData.imageUrl}
+                            // value={formData.imageUrl}
                             onChange={handleImageChange}
                         />
                         <label htmlFor="portfolio-image">

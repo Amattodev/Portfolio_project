@@ -103,9 +103,9 @@ function Header () {
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                         {currentUser ? (
                             <>
-                                <IconButton>
+                                {/* <IconButton>
                                     <NotificationsIcon fontSize="medium" />
-                                </IconButton>
+                                </IconButton> */}
                                 <IconButton
                                     component={Link}
                                     to="/profile"
