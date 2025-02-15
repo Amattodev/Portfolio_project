@@ -1,20 +1,32 @@
 import {auth} from '../firebase/firebase';
 
-const API_BASE_URL = 'http://localhost:8002/api';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 //APIリクエストを送るためのヘッダーを作成
 async function getAuthHeaders() {
-    const token = await auth.currentUser?.getIdToken();
-    return {
-        'Content-Type': 'application/json',
-        'Authorization': token ? `Bearer ${token}` : '',
+    try {
+        const token = await auth.currentUser?.getIdToken(true); // forceRefresh: true
+        return {
+            'Content-Type': 'application/json',
+            'Authorization': token ? `Bearer ${token}` : '',
+        };
+    } catch (error) {
+        console.error('トークン取得エラー:', error);
+        return {
+            'Content-Type': 'application/json'
+        };
     }
 }
 
 //GETリクエストの処理
 export async function get(endpoint) {
     const headers = await getAuthHeaders();
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {headers});
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: 'GET',
+        headers,
+        credentials: 'include',
+        mode: 'cors'
+    });
     if (!response.ok) {
         const error = await response.json();
         throw new Error(error.message || 'APIリクエストに失敗しました');
