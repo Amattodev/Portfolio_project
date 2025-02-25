@@ -15,3 +15,9 @@ Javascript⇨Typescriptへ
    - PortfolioList.tsx
    - Profile.tsx
 6. テストの追加
+
+
+① このフォルダでフロントエンド部分を移行
+② 新しいフォルダを作成
+③ 作成したコードをそのまま移行
+④ エラーが出たらそこを修正していく
