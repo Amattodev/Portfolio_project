@@ -1,12 +1,12 @@
 Javascript⇨Typescriptへ
 
 1. 型定義の作成 ✅
-2. APIクライアントの移行
-   - client.ts
-   - portfolios.ts
-   - users.ts
+2. APIクライアントの移行✅
+   - client.ts✅
+   - portfolios.ts✅
+   - users.ts✅
 3. コンテキストの移行
-   - AuthContext.tsx
+   - AuthContext.tsx✅
    - SearchContext.tsx
 4. 共通コンポーネントの移行
    - Header.tsx
